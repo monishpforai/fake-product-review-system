@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fake Product Review Detection Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark-mode {
+      background-color: #1e1e1e;
+      color: #f1f1f1;
+    }
+
+    .chat-box {
+      width: 100%;
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark-mode .chat-box {
+      background: #2c2c2c;
+    }
+
+    .chat-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .chat-log {
+      height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 15px;
+      background: #fafafa;
+      border-radius: 5px;
+    }
+
+    .dark-mode .chat-log {
+      background: #3a3a3a;
+      border-color: #555;
+    }
+
+    .chat-log .user {
+      color: #007BFF;
+      margin-bottom: 10px;
+    }
+
+    .chat-log .bot {
+      margin-bottom: 10px;
+    }
+
+    .chat-log .bot.fake {
+      color: red;
+      background-color: #ffe6e6;
+      padding: 8px;
+      border-radius: 5px;
+    }
+
+    .chat-log .bot.genuine {
+      color: green;
+      background-color: #e6ffe6;
+      padding: 8px;
+      border-radius: 5px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #007BFF;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .sentiment-options {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+
+    .sentiment-options label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .toggle-dark {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .toggle-dark input {
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="toggle-dark">
+    <label><strong>Dark Mode</strong><input type="checkbox" id="dark-toggle"></label>
+  </div>
+
+  <div class="chat-box">
+    <h2>Fake Product Review Detection Chatbot</h2>
+    <div class="chat-log" id="chat-log"></div>
+    
+    <div class="input-group">
+      <input type="text" id="review-input" placeholder="Enter a product review...">
+      
+      <div class="sentiment-options">
+        <label><input type="checkbox" name="sentiment" value="positive"> Positive</label>
+        <label><input type="checkbox" name="sentiment" value="negative"> Negative</label>
+        <label><input type="checkbox" name="sentiment" value="neutral"> Neutral</label>
+      </div>
+
+      <button onclick="handleChat()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatLog = document.getElementById('chat-log');
+    const darkToggle = document.getElementById('dark-toggle');
+
+    darkToggle.addEventListener('change', function () {
+      document.body.classList.toggle('dark-mode', this.checked);
+    });
+
+    function appendMessage(sender, message, type = "user", extraClass = "") {
+      const div = document.createElement('div');
+      div.className = `${type} ${extraClass}`.trim();
+      div.innerHTML = `<strong>${sender}:</strong> ${message}`;
+      chatLog.appendChild(div);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    function detectFakeReview(review) {
+      const fakeKeywords = ["best", "amazing", "worst", "hate", "love"];
+      const lowerReview = review.toLowerCase();
+      return fakeKeywords.some(keyword => lowerReview.includes(keyword))
+        ? { message: "⚠️ This review might be fake.", isFake: true }
+        : { message: "✅ This review seems genuine.", isFake: false };
+    }
+
+    function getSelectedSentiment() {
+      const checkboxes = document.querySelectorAll('input[name="sentiment"]');
+      let selected = null;
+      checkboxes.forEach(cb => {
+        if (cb.checked) {
+          if (selected) {
+            selected = null; // If more than one is selected
+            return;
+          }
+          selected = cb.value;
+        }
+      });
+      return selected;
+    }
+
+    function getResponse(sentiment) {
+      const responses = {
+        positive: [
+          "This product is amazing! I love it!",
+          "Absolutely fantastic! Highly recommend!",
+          "Best purchase I've made in a while!"
+        ],
+        negative: [
+          "This product did not meet my expectations.",
+          "I'm really disappointed with this purchase.",
+          "I wouldn't recommend this to anyone."
+        ],
+        neutral: [
+          "It's an okay product, nothing special.",
+          "I've seen better, but it works.",
+          "It's decent, but I expected more."
+        ]
+      };
+      const list = responses[sentiment.toLowerCase()] || ["I'm not sure about that sentiment."];
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    function handleChat() {
+      const reviewInput = document.getElementById('review-input');
+      const review = reviewInput.value.trim();
+      const sentiment = getSelectedSentiment();
+
+      if (!review || !sentiment) {
+        alert("Please enter a review and select exactly one sentiment.");
+        return;
+      }
+
+      appendMessage("User", review, "user");
+
+      const detection = detectFakeReview(review);
+      const colorClass = detection.isFake ? "fake" : "genuine";
+      appendMessage("Bot", detection.message, "bot", colorClass);
+
+      const response = getResponse(sentiment);
+      appendMessage("Bot", response, "bot");
+
+      reviewInput.value = '';
+      document.querySelectorAll('input[name="sentiment"]').forEach(cb => cb.checked = false);
+    }
+  </script>
+</body>
+</html>
