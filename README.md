@@ -8,29 +8,29 @@ The primary goal is not to achieve production-grade accuracy, but to illustrate 
 2. System Architecture
    
   Components
-  User Interface: Web-based chatbot interface
-  Text Processing Module: Performs preprocessing and keyword analysis
-  Sentiment Module: Accepts user-defined sentiment labels
-  Decision Engine: Applies rule-based logic to classify reviews
+User Interface: Web-based chatbot interface
+Text Processing Module: Performs preprocessing and keyword analysis
+Sentiment Module: Accepts user-defined sentiment labels
+Decision Engine: Applies rule-based logic to classify reviews
 
 Architecture Flow
 User Input → Text Preprocessing → NLP Rule Evaluation → Classification Output
 
 3. NLP Techniques Used
 
-  Keyword-based pattern detection
-  Sentiment-oriented heuristic rules
-  Lexical analysis of emotional intensity
-  Case normalization and string matching
+Keyword-based pattern detection
+Sentiment-oriented heuristic rules
+Lexical analysis of emotional intensity
+Case normalization and string matching
 These techniques were chosen for their simplicity, transparency, and ease of explanation in an academic context.
 
 4. Features
 
-  Chatbot-style review analysis
-  Sentiment-based contextual feedback
-  Visual distinction between fake and genuine reviews
-  Dark mode user interface
-  Lightweight, browser-based execution
+Chatbot-style review analysis
+Sentiment-based contextual feedback
+Visual distinction between fake and genuine reviews
+Dark mode user interface
+Lightweight, browser-based execution
 
 5. Technologies
    
@@ -45,25 +45,25 @@ The system successfully demonstrates how reviews containing excessive sentiment-
 
 7. Limitations
 
-  Does not use machine learning or deep learning models
-  Accuracy depends on manually defined rules
-  Limited linguistic understanding compared to contextual NLP models
+Does not use machine learning or deep learning models
+Accuracy depends on manually defined rules
+Limited linguistic understanding compared to contextual NLP models
 
 8. Future Work
 
-  Integration of supervised ML classifiers (Naive Bayes, Logistic Regression)
-  Use of TF-IDF or word embeddings
-  Backend implementation using Python and Flask
-  Dataset-based evaluation with performance metrics
-  Expansion to multilingual review analysis
+Integration of supervised ML classifiers (Naive Bayes, Logistic Regression)
+Use of TF-IDF or word embeddings
+Backend implementation using Python and Flask
+Dataset-based evaluation with performance metrics
+Expansion to multilingual review analysis
 
 9. Academic Use
 
 This project is suitable for:
-  Mini projects
-  NLP laboratory demonstrations
-  Introductory AI coursework
-  Explainable AI prototypes
+Mini projects
+NLP laboratory demonstrations
+Introductory AI coursework
+Explainable AI prototypes
 
 10. License
 
