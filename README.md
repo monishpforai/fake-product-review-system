@@ -7,7 +7,7 @@ The primary goal is not to achieve production-grade accuracy, but to illustrate 
 
 2. System Architecture
    
-  Components
+Components
 User Interface: Web-based chatbot interface
 Text Processing Module: Performs preprocessing and keyword analysis
 Sentiment Module: Accepts user-defined sentiment labels
